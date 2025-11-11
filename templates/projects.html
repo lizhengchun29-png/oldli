@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}项目 - 个人网站{% endblock %}
+
+{% block content %}
+<!-- Projects Header -->
+<section class="page-header">
+    <div class="container">
+        <h1>作品集</h1>
+        <p>展示我的项目和技术成果</p>
+    </div>
+</section>
+
+<!-- Projects Grid -->
+<section class="section">
+    <div class="container">
+        {% if projects %}
+        <div class="projects-showcase">
+            {% for project in projects %}
+            <div class="project-showcase-item">
+                {% if project['image_url'] %}
+                <div class="showcase-image">
+                    <img src="{{ project['image_url'] }}" alt="{{ project['title'] }}">
+                </div>
+                {% endif %}
+                <div class="showcase-content">
+                    <h3 class="showcase-title">{{ project['title'] }}</h3>
+                    <p class="showcase-description">{{ project['description'] }}</p>
+                    
+                    {% if project['tech_stack'] %}
+                    <div class="tech-stack">
+                        <strong>技术栈:</strong>
+                        {% for tech in project['tech_stack'].split(',') %}
+                        <span class="tech-tag">{{ tech.strip() }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    
+                    <div class="showcase-links">
+                        {% if project['project_url'] %}
+                        <a href="{{ project['project_url'] }}" target="_blank" class="btn btn-primary">预览项目</a>
+                        {% endif %}
+                        {% if project['github_url'] %}
+                        <a href="{{ project['github_url'] }}" target="_blank" class="btn btn-secondary">查看代码</a>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="showcase-date">
+                        创建于 {{ project['created_at'][:10] }}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <p>暂无项目</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}

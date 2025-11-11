@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}{{ article['title'] }} - 个人网站{% endblock %}
+
+{% block content %}
+<section class="article-container">
+    <div class="container">
+        <article class="article-detail">
+            <header class="article-header">
+                <h1 class="article-title">{{ article['title'] }}</h1>
+                <div class="article-meta">
+                    {% if article['category'] %}
+                    <span class="meta-category">{{ article['category'] }}</span>
+                    {% endif %}
+                    <span class="meta-date">📅 {{ article['created_at'][:10] }}</span>
+                    <span class="meta-views">👁️ {{ article['views'] }} 浏览</span>
+                </div>
+            </header>
+            
+            <div class="article-body">
+                {{ article['content']|safe }}
+            </div>
+            
+            <footer class="article-footer">
+                <div class="article-actions">
+                    <a href="/blog" class="btn btn-secondary">← 返回博客</a>
+                </div>
+            </footer>
+        </article>
+    </div>
+</section>
+
+{% endblock %}
