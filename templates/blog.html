@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}博客 - 个人网站{% endblock %}
+
+{% block content %}
+<!-- Blog Header -->
+<section class="page-header">
+    <div class="container">
+        <h1>博客</h1>
+        <p>分享技术心得和个人思考</p>
+    </div>
+</section>
+
+<!-- Articles List -->
+<section class="section">
+    <div class="container">
+        <div class="articles-list">
+            {% if articles %}
+                {% for article in articles %}
+                <article class="article-item">
+                    <div class="article-item-content">
+                        <h2 class="article-item-title">
+                            <a href="/blog/{{ article['slug'] }}">{{ article['title'] }}</a>
+                        </h2>
+                        <p class="article-item-description">{{ article['description'] }}</p>
+                        <div class="article-item-meta">
+                            {% if article['category'] %}
+                            <span class="meta-item">
+                                <strong>分类:</strong> {{ article['category'] }}
+                            </span>
+                            {% endif %}
+                            <span class="meta-item">
+                                <strong>发布:</strong> {{ article['created_at'][:10] }}
+                            </span>
+                            <span class="meta-item">
+                                <strong>浏览:</strong> 👁️ {{ article['views'] }}
+                            </span>
+                        </div>
+                    </div>
+                    <a href="/blog/{{ article['slug'] }}" class="article-item-link">阅读全文 →</a>
+                </article>
+                {% endfor %}
+            {% else %}
+            <div class="empty-state">
+                <p>暂无文章</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}

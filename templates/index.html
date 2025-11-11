@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block title %}首页 - 个人网站{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <div class="avatar-container">
+                <div class="avatar">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Avatar">
+                </div>
+            </div>
+            <h1 class="hero-title">
+                {% if user %}
+                    {{ user['name'] }}
+                {% else %}
+                    李明
+                {% endif %}
+            </h1>
+            <p class="hero-subtitle">
+                {% if user %}
+                    {{ user['title'] }}
+                {% else %}
+                    全栈开发工程师
+                {% endif %}
+            </p>
+            <p class="hero-bio">
+                {% if user %}
+                    {{ user['bio'] }}
+                {% else %}
+                    热爱编程，专注于Web开发。
+                {% endif %}
+            </p>
+            <div class="hero-actions">
+                <a href="#projects" class="btn btn-primary">查看作品</a>
+                <a href="/contact" class="btn btn-secondary">联系我</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Skills Section -->
+<section class="section skills-section">
+    <div class="container">
+        <h2 class="section-title">技能</h2>
+        <div class="skills-grid">
+            {% for category, skills in skills_by_category.items() %}
+            <div class="skill-category">
+                <h3 class="category-title">{{ category }}</h3>
+                <div class="skills-list">
+                    {% for skill in skills %}
+                    <div class="skill-item">
+                        <div class="skill-header">
+                            <span class="skill-name">{{ skill['skill_name'] }}</span>
+                            <span class="skill-level">{{ skill['proficiency'] }}%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: {{ skill['proficiency'] }}%"></div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Featured Projects Section -->
+<section class="section projects-section" id="projects">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">精选项目</h2>
+            <a href="/projects" class="view-more">查看全部 →</a>
+        </div>
+        <div class="projects-grid">
+            {% for project in featured_projects %}
+            <div class="project-card">
+                {% if project['image_url'] %}
+                <div class="project-image">
+                    <img src="{{ project['image_url'] }}" alt="{{ project['title'] }}">
+                </div>
+                {% endif %}
+                <div class="project-content">
+                    <h3 class="project-title">{{ project['title'] }}</h3>
+                    <p class="project-description">{{ project['description'] }}</p>
+                    {% if project['tech_stack'] %}
+                    <div class="tech-stack">
+                        {% for tech in project['tech_stack'].split(',') %}
+                        <span class="tech-tag">{{ tech.strip() }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    <div class="project-links">
+                        {% if project['project_url'] %}
+                        <a href="{{ project['project_url'] }}" target="_blank" class="project-link">预览</a>
+                        {% endif %}
+                        {% if project['github_url'] %}
+                        <a href="{{ project['github_url'] }}" target="_blank" class="project-link">代码</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Blog Section -->
+<section class="section blog-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">最新文章</h2>
+            <a href="/blog" class="view-more">查看全部 →</a>
+        </div>
+        <div class="articles-grid">
+            {% for article in recent_articles %}
+            <article class="article-card">
+                <div class="article-header">
+                    <h3 class="article-title">
+                        <a href="/blog/{{ article['slug'] }}">{{ article['title'] }}</a>
+                    </h3>
+                    {% if article['category'] %}
+                    <span class="article-category">{{ article['category'] }}</span>
+                    {% endif %}
+                </div>
+                <p class="article-description">{{ article['description'] }}</p>
+                <div class="article-footer">
+                    <span class="article-date">{{ article['created_at'][:10] }}</span>
+                    <span class="article-views">👁️ {{ article['views'] }} 浏览</span>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action Section -->
+<section class="section cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>有想法想讨论？</h2>
+            <p>欢迎通过邮件或社交媒体与我联系</p>
+            <a href="/contact" class="btn btn-primary btn-large">立即联系</a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
